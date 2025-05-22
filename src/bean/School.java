@@ -1,20 +1,30 @@
 package bean;
 
-public class School implements java.io.Serializable{
+import java.io.Serializable;
 
-	 private String cd;
-	 private String name;
+public class School implements Serializable{
 
-	 public String getCd() {
-		 return cd;
-	 }
-	 public void setCd(String cd) {
-		 this.cd =cd;
-	 }
-	 public String getName() {
-		 return name;
-	 }
-	 public void setName(String name) {
-		 this.name=name;
-	 }
+    private String cd;
+    private String name;
+	public String getCd() {
+		return cd;
+	}
+	public void setCd(String cd) {
+		this.cd = cd;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getEntYear() {
+		// TODO 自動生成されたメソッド・スタブ
+		return 0;
+	}
+	public String getClassNum() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
 }

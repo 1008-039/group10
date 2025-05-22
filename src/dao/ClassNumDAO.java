@@ -10,103 +10,78 @@ import java.util.List;
 import bean.ClassNum;
 import bean.School;
 
-public class ClassNumDAO extends Dao {
-
-	public ClassNum get (String class_num, School school) throws Exception {
-		//クラス番号インスタンスを初期化
+public class ClassNumDAO extends Dao{
+	public ClassNum get(String class_num,School school) throws Exception{
 		ClassNum classNum = new ClassNum();
-		//データベースにコネクションを確立
 		Connection connection = getConnection();
-		//プリペアードステートメント
 		PreparedStatement statement = null;
-		try {
-			//プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("select * from class_num where class_num = ? and school_cd = ?");
-			//プリペアードステートメントに値をバインド
+		try{
+			statement = connection.prepareStatement("select * from class_num where class_unm = ? and school_cd = ?");
 			statement.setString(1, class_num);
 			statement.setString(2, school.getCd());
-			//プリペアードステートメントを実行
+
 			ResultSet rSet = statement.executeQuery();
-			//学校DAOを初期化
+
 			SchoolDao sDao = new SchoolDao();
-			if (rSet.next()) {
-				//リザルトセットが存在する場合
-				//クラス番号インスタンスに検索結果をセット
-				classNum.setclass_num(rSet.getString("class_num"));
-				classNum.setschool(sDao.get(rSet.getString("school_cd")));
-			} else {
-				//リザルトセットが存在しない場合
-				//クラス番号インスタンスにnullをセット
-				classNum=null;
+			if (rSet.next()){
+				classNum.setClass_Num(rSet.getString("class_num"));
+				classNum.setSchool(sDao.get(rSet.getString("school_cd")));
+			}else{
+				classNum = null;
 			}
-		} catch (Exception e) {
+		}catch(Exception e){
 			throw e;
-		} finally {
-			//プリペアードステートメントを閉じる
-			if (statement !=null) {
+		}finally {
+			if(statement !=null){
 				try {
 					statement.close();
-				} catch (SQLException sqle) {
+				}catch (SQLException sqle){
 					throw sqle;
 				}
-			}
-			//コネクションを閉じる
-			if (connection !=null) {
-				try {
-					connection.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-			    }
+
 			}
 		}
 
-	    return classNum;
+		return classNum;
 	}
-
-
-
 	public List<String> filter(School school) throws Exception{
-		//リストを初期化
 		List<String> list = new ArrayList<>();
-		//データベースへのコネクションを確立
 		Connection connection = getConnection();
-		//プリペアードステートメント
 		PreparedStatement statement = null;
 
-		try {
-			//プリペアードステートメントにSQL文をセット
+		try{
 			statement = connection.prepareStatement("select class_num from class_num where school_cd=? order by class_num");
-			//プリペアードステートメントに学校コードをバインド
-			statement.setString(1,school.getCd());
-			//プリペアードステートメントを実行
+			statement.setString(1, school.getCd());
 			ResultSet rSet = statement.executeQuery();
 
-			//リザルトセットを全件走査
-			while (rSet.next()) {
-				//リストにクラス番号を追加
+			while (rSet.next()){
 				list.add(rSet.getString("class_num"));
 			}
-		} catch (Exception e) {
+		}catch (Exception e){
 			throw e;
-		} finally {
-			//プリペアードステートメントを閉じる
-			if (statement !=null) {
-				try {
+		}finally {
+			if (statement !=null){
+				try{
 					statement.close();
-				} catch (SQLException sqle) {
+				}catch (SQLException sqle){
 					throw sqle;
 				}
 			}
-			//コネクションを閉じる
-			if (connection !=null) {
+			if(connection != null){
 				try {
 					connection.close();
-				} catch (SQLException sqle) {
+				}catch (SQLException sqle){
 					throw sqle;
-			    }
+				}
 			}
 		}
-		return list;
 
+		return list;
 	}
 }
+
+	/*public boolean save(ClassNum classNum){
+
+	}
+*/
+
